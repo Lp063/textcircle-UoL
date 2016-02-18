@@ -3,14 +3,17 @@
 </head>
 
 <body>
-  <h1>Welcome to TextCircle!</h1>
-  {{> date_display}}
-  {{> editor}}
+
+	<nav class="navbar navbar-default navbar-fixed-top">
+	  <div class="container">
+	     <a class="navbar-brand" href="#">Text Circle</a>
+	  </div>
+	</nav><!-- End Nav Container-->
+	<div class="container top-margin">
+  		{{> editor}}
+  	</div>
 </body>
 
-<template name="date_display">
-	{{current_date}} {{myVar}}
-</template>
 
 <template name="editor">
 {{>sharejsCM docid=docid id="editor"}}
