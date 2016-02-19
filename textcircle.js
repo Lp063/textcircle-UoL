@@ -1,4 +1,5 @@
 this.Documents = new Mongo.Collection("documents");
+EditingUsers = new Mongo.Collection("editingUsers");
 
 if (Meteor.isClient) {
 
@@ -17,6 +18,7 @@ if (Meteor.isClient) {
 				editor.on("change",function(cm_editor,info){
 				console.log(cm_editor.getValue());
 				$("#viewer_iframe").contents().find("html").html(cm_editor.getValue());
+				Meteor.call("addEditingUser");
 				});
 			}
 		}
@@ -33,3 +35,20 @@ if (Meteor.isServer) {
     }
   });
 }
+
+Meteor.methods({
+	addEditingUser:function(){
+		var doc, user, eusers;
+
+		doc=Documents.findOne();
+		if(!doc){return;}
+		if(!this.userId){return;}
+
+		user=Meteor.user().profile;
+		eusers=EditingUsers.findOne({docid:doc._id});
+		if(!eusers){
+			eusers={docid=doc._id,};
+		}
+		EditingUsers.insert({user:"Matthew"});
+	}
+});
