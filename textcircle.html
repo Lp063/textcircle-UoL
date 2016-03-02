@@ -13,6 +13,9 @@
 
 	<div class="container top-margin">
 		<div class="row">
+			<div class="col-md-12">
+  				{{> editingUsers}}
+			</div>
 			<div class="col-md-6">
   				{{> editor}}
 			</div>
@@ -33,4 +36,11 @@
 	<iframe width="500px" height="300px" id="viewer_iframe">
 		
 	</iframe>
+</template>
+
+<template name="editingUsers">
+	Editors: 
+	{{#each users}}
+	<span class="label label-success">{{firstname}}</span>
+	{{/each}}
 </template>

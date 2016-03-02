@@ -6,3 +6,9 @@
 .accounts-dialog{
 	background:green;
 }
+
+#viewer_iframe{
+	border:1px solid grey;
+	resize:both;
+	width:100%;
+}
