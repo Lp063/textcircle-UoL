@@ -4,15 +4,13 @@
 
 <body>
 
-	<nav class="navbar navbar-default navbar-fixed-top">
-	  <div class="container">
-	     <a class="navbar-brand" href="#">Text Circle</a>
-	     <p class="navbar-text navbar-right">{{> loginButtons align="right"}}</p>
-	  </div>
-	</nav><!-- End Nav Container-->
+	{{> navbar}}
 
 	<div class="container top-margin">
 		<div class="row">
+			<div class="col-md-12">
+				{{> docMeta}}
+			</div>
 			<div class="col-md-12">
   				{{> editingUsers}}
 			</div>
@@ -28,14 +26,46 @@
 </body>
 
 
+
+<template name="navbar">
+	<nav class="navbar navbar-default navbar-fixed-top">
+		  <div class="container">
+		     <a class="navbar-brand" href="#">Text Circle</a>
+		     <ul class="nav navbar-nav">
+		     	<li>
+			     	<a hreg="#" class="js-add-doc"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>New Document
+			     	</a>
+		     	</li>
+		     	<!--DropDown-->
+		     	<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Documents <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+          	{{#each documents}}
+            <li><a href="#" class="js-load-doc">{{title}}</a></li>
+           	{{/each}}
+          </ul>
+        </li>
+		     	<!--End Dropdown-->
+
+		     </ul>
+		     <p class="navbar-text navbar-right">{{> loginButtons align="right"}}</p>
+		  </div>
+		</nav><!-- End Nav Container-->
+</template>
+
 <template name="editor">
-{{>sharejsCM docid=docid onRender=config id="editor"}}
+	{{>sharejsCM docid=docid onRender=config id="editor"}}
 </template>
 
 <template name="viewer">
 	<iframe width="500px" height="300px" id="viewer_iframe">
-		
 	</iframe>
+</template>
+
+<template name="docMeta">
+	{{#with document}}
+	<span class="h1">{{> editableText collection="documents" field="title"}}</span>
+	{{/with}}
 </template>
 
 <template name="editingUsers">

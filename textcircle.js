@@ -5,12 +5,8 @@ if (Meteor.isClient) {
 
 	Template.editor.helpers({
 		docid:function(){
-			var doc=Documents.findOne();
-			if(doc){
-				return doc._id;
-			}else{
-				return undefined;
-			}
+			setupCurrentDocument();
+			return Session.get("docid");
 		},
 
 		config:function(){
@@ -27,26 +23,66 @@ if (Meteor.isClient) {
 	});
 
 	Template.editingUsers.helpers({
-		users:function(){
+		users:function(){ // return users editing current document
 			var doc,eusers,users;
 			doc=Documents.findOne();
 			if(!doc){return;} //givr up
-			eusers=EditingUsers.FindOne({docid:doc._id});
+			eusers=EditingUsers.findOne({docid:doc._id});
 			if(!eusers){return;} // give up
 			users = new Array();
 			var i=0;
-			for(var user_id in eusers.users)
-			{
-				console.log("Adding a user");
-				console.log(eusers.users[user_id]);
+			for(var user_id in eusers.users){
 				users[i]=fixObjectKeys(eusers.users[user_id]);
 				i++;
 			}
 			return users;
 		}
-	});
+	})
 
-}
+	Template.navbar.helpers({
+		documents:function(){
+			return Documents.find({});
+		}
+	})
+
+	Template.docMeta.helpers({
+		document:function(){
+			return Documents.findOne({_id:Session.get("docid")});
+		}
+	})
+
+/////////
+//Events
+/////////
+
+	Template.navbar.events({
+		"click .js-add-doc":function(event){
+			event.preventDefault();
+			console.log(" Add a new Doc");
+			if(!Meteor.user()){
+				alert("You need to login first");
+			}else{
+				//They are logged in lets add a document
+				var id = Meteor.call("addDoc", function(err, res){
+					if(!err){//all good
+						console.log("callback recieved: "+res);
+						Session.set("docid",res);
+					}
+				}); // DB ops only works from methods.
+			}
+		},
+
+		"click .js-load-doc":function(event){
+			console.log(this);
+			Session.set("docid",this._id);
+
+		}
+	})
+
+} // End isClient
+
+
+
 
 
 if (Meteor.isServer) {
@@ -61,6 +97,21 @@ if (Meteor.isServer) {
 
 
 Meteor.methods({
+	addDoc:function(){
+		var doc;
+		if(!this.userId){// NOt logged in
+			return;
+		}else{
+			doc={
+				owner:this.userId, 
+				createdOn:new Date(), 
+				title:"New Doc"
+			};
+			var id = Documents.insert(doc);
+			return id; //return was missing. caused problem in method call.
+		}
+	},
+
 	addEditingUser:function(){
 		var doc, user, eusers;
 
@@ -81,7 +132,18 @@ Meteor.methods({
 		eusers.users[this.userId] = user;
 		EditingUsers.upsert({_id:eusers._id},eusers);
 	}
-}); 
+	
+})
+
+function setupCurrentDocument(){
+	var doc;
+	if(!Session.get("docid")){// NO doc id Set
+		doc = Documents.findOne();
+		if(doc){
+			Session.set("docid",doc._id);
+		}
+	}
+}
 
 // this renames object keys by removing hyphens to make the compatible 
 // with spacebars. 
