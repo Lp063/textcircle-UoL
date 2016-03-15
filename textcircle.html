@@ -6,12 +6,16 @@
 
 	{{> navbar}}
 
+
 	<div class="container top-margin">
 		<div class="row">
 			<div class="col-md-12">
-				{{> docMeta}}
+				{{> docMeta}} 
 			</div>
-			<div class="col-md-12">
+			<div class="col-md-12" style="background-color:#11d3bc">
+				{{> noteHeader}}
+			</div>
+			<div class="col-md-12" style="background-color:#55e9bc">
   				{{> editingUsers}}
 			</div>
 			<div class="col-md-6">
@@ -19,7 +23,7 @@
 			</div>
 
 			<div class="col-md-6">
-				{{> viewer}}
+				<!--{{> viewer}} -->
 			</div>
 		</div>
   	</div>
@@ -31,26 +35,29 @@
 	<nav class="navbar navbar-default navbar-fixed-top">
 		  <div class="container">
 		     <a class="navbar-brand" href="#">Text Circle</a>
-		     <ul class="nav navbar-nav">
-		     	<li>
-			     	<a hreg="#" class="js-add-doc"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>New Document
-			     	</a>
-		     	</li>
-		     	<!--DropDown-->
-		     	<li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Documents <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-          	{{#each documents}}
-            <li><a href="#" class="js-load-doc">{{title}}</a></li>
-           	{{/each}}
-          </ul>
-        </li>
-		     	<!--End Dropdown-->
-
-		     </ul>
+			    
 		     <p class="navbar-text navbar-right">{{> loginButtons align="right"}}</p>
-		  </div>
+		  	</div>
 		</nav><!-- End Nav Container-->
+</template>
+
+<template name="noteHeader">
+	<ul class="nav navbar-nav" style="font-color:#537780">
+			     	<li>
+				     	<a hreg="#" class="js-add-doc"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>New Document
+				     	</a>
+			     	</li>
+			     	<!--DropDown-->
+			     	<li class="dropdown">
+		          		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Documents <span class="caret"></span></a>
+			          <ul class="dropdown-menu">
+			          	{{#each documents}}
+			            <li><a href="#" class="js-load-doc">{{title}}</a></li>
+			           	{{/each}}
+			          </ul>
+	        		</li>
+			     	<!--End Dropdown-->
+			    </ul>
 </template>
 
 <template name="editor">
@@ -64,7 +71,7 @@
 
 <template name="docMeta">
 	{{#with document}}
-	<span class="h1">{{> editableText collection="documents" field="title"}}</span>
+	<span class="h1" style="color:#5e366a">{{> editableText collection="documents" field="title"}}</span>
 	 <div class="checkbox">
 	    <label>
 	      <input type="checkbox" class="js-tog-private"> Private

@@ -14,9 +14,9 @@ if (Meteor.isClient) {
 				editor.setOption("lineNumbers",true);
 				editor.setOption("theme","cobalt");
 				editor.on("change",function(cm_editor,info){
-				console.log(cm_editor.getValue());
-				$("#viewer_iframe").contents().find("html").html(cm_editor.getValue());
-				Meteor.call("addEditingUser");
+					/*console.log(cm_editor.getValue());
+					$("#viewer_iframe").contents().find("html").html(cm_editor.getValue());*/
+					Meteor.call("addEditingUser");
 				});
 			}
 		}
@@ -39,7 +39,7 @@ if (Meteor.isClient) {
 		}
 	})
 
-	Template.navbar.helpers({
+	Template.noteHeader.helpers({
 		documents:function(){
 			return Documents.find({});
 		}
@@ -67,7 +67,7 @@ if (Meteor.isClient) {
 //Events
 /////////
 
-	Template.navbar.events({
+	Template.noteHeader.events({
 		"click .js-add-doc":function(event){
 			event.preventDefault();
 			console.log(" Add a new Doc");
