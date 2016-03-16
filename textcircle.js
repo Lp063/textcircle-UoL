@@ -41,7 +41,7 @@ if (Meteor.isClient) {
 
 	Template.noteHeader.helpers({
 		documents:function(){
-			return Documents.find({});
+			return Documents.find({isPrivate:false});
 		}
 	})
 
