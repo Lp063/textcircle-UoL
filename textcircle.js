@@ -52,6 +52,17 @@ if (Meteor.isClient) {
 	Template.docMeta.helpers({
 		document:function(){
 			return Documents.findOne({_id:Session.get("docid")});
+		},
+
+		canEdit:function(){
+			var doc;
+			doc=Document.findOne({_id:Session.get("docid")});
+			if(doc){
+				if(doc.owner=Meteor.userId()){
+					return true;
+				}
+			}
+			return false;
 		}
 	})
 
