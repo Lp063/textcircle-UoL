@@ -3,7 +3,7 @@
     // code to run on server at startup
     if(!Documents.findOne()){
     	//No Docs yet
-    	Documents.insert({title:"My new Document"});
+    	Documents.insert({title:"Untitled Document"});
     }
   });
 

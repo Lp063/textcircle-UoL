@@ -7,10 +7,23 @@ Meteor.methods({
 			doc={
 				owner:this.userId, 
 				createdOn:new Date(), 
-				title:"New Doc"
+				title:"Untitled Document"
 			};
 			var id = Documents.insert(doc);
 			return id; //return was missing. caused problem in method call.
+		}
+	},
+	delDoc:function(doc){
+		
+		if(!this.userId){// NOt logged in
+			return;
+		}else{
+			var realDoc=Documents.findOne({_id:doc._id, owner:this.userId});
+			if(realDoc){
+				//realDoc.isPrivate=doc.isPrivate;
+				Documents.remove({_id:doc._id}, realDoc);
+			}
+			
 		}
 	},
 	updateDocPrivacy:function(doc){

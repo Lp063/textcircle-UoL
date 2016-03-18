@@ -95,6 +95,19 @@ Template.noteHeader.events({
 		}
 	},
 
+	"click .js-del-doc":function(event){
+		event.preventDefault();
+		console.log(" Delete a Doc");
+		if(!Meteor.user()){
+			alert("You need to login first");
+		}else{
+			var doc={_id:Session.get("docid")};
+			//They are logged in lets add a document
+			Meteor.call("delDoc", doc); // DB ops only works from methods.
+			
+		}
+	},
+
 	"click .js-load-doc":function(event){
 		console.log(this);
 		Session.set("docid",this._id);
